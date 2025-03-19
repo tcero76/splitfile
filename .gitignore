@@ -37,4 +37,5 @@ out/
 .vscode/
 jre-miapp/
 paquete/
-
+.vagrant/
+botlib.log
