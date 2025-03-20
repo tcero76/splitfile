@@ -1,5 +1,6 @@
 package com.example.splitfile.controller;
 
+import com.example.splitfile.payload.ReadFile;
 import com.example.splitfile.services.IFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -42,17 +44,18 @@ public class FileUploadController {
 
     @GetMapping("/getFile")
     public ResponseEntity<InputStreamResource> getFile(@RequestParam("filename") String filename,
-                                                      @RequestParam("name") String name) throws FileNotFoundException {
-        File file = new File(filename);
-        if(!file.exists()) {
+                                            @RequestParam("name") String name) {
+        ReadFile readFile = null;
+        try {
+            readFile = iFileService.ReadFile(filename);
+        } catch (FileNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + name + "\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .contentLength(file.length())
-                .body(resource);
+                .contentLength(readFile.getLength())
+                .body(readFile.getInputStreamResource());
     }
 }
 

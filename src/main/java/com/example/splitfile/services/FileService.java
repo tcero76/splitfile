@@ -1,6 +1,9 @@
 package com.example.splitfile.services;
 
+import com.example.splitfile.payload.ReadFile;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +27,16 @@ public class FileService implements IFileService{
         saveFile(file, directorio);
         return files;
     }
+
+    @Override
+    public ReadFile ReadFile(String filename) throws FileNotFoundException {
+        File file = new File(filename);
+        if(!file.exists()) {
+            throw new FileNotFoundException();
+        }
+        return new ReadFile(new InputStreamResource(new FileInputStream(file)), file.length());
+    }
+
     private Path getDirectory() throws IOException {
         Path directorio = Path.of(System.getProperty("java.io.tmpdir"), UPLOADDIR);
         if (!Files.isDirectory(directorio)) {

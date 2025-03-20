@@ -26,15 +26,29 @@ document.getElementById("subir").addEventListener("click", function(event) {
     event.preventDefault();
     const size = document.getElementById("size").value;
     const archivo = document.getElementById("archivo").files[0];
-    console.log(archivo)
     const formData = new FormData();
     formData.append("file", archivo);
     fetch(`/api/upload?size=${size}`, {
         method: "POST",
         body: formData,
     })
-        .then(response => response.json())
-        .catch(console.error)
-        .then(res => actualizarLista(res, archivo.name))
-        .catch(error => console.error("Error:", error));
+        .then(res => {
+            if(res.status == 413) {
+                alert("Tamaño del archivo demasiado grande");
+                throw new Error("Tamaño archivo excede el límite");
+            }
+            return res.json()
+        })
+        .catch(res => {
+            console.log(res)
+        })
+        .then(res => {
+            if(!res) {
+                throw new Error("Sin respuesta del servidor");
+            }
+            actualizarLista(res, archivo.name)
+        })
+        .catch(error => {
+            console.log("Error:", error)
+        });
 });
