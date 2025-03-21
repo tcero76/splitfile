@@ -33,18 +33,18 @@ tar -xf jdk-21.0.5_windows-x64_bin.zip -C "C:\java"
 ### Paso 4: Descargar .jar con el bitcode del proyecto
 Se debe descargar el ejecutable del proyecto a través del siguiente comando:
 ```cmd
-curl -L -o splitfile-0.0.1-SNAPSHOT.jar "https://github.com/tcero76/splitfile/releases/download/v0.0.1/splitfile-0.0.1-SNAPSHOT.jar"
+curl -L -o splitfile-0.0.2-SNAPSHOT.jar "https://github.com/tcero76/splitfile/releases/download/v0.0.2/splitfile-0.0.2-SNAPSHOT.jar"
 ```
 
 ### Paso 5: Ejecutar el proyecto
 Para ejecutar el proyecto se debe usar el siguiente comando:
 ```cmd
-C:\java\jdk-21.0.5\bin\java -jar splitfile-0.0.1-SNAPSHOT.jar
+C:\java\jdk-21.0.5\bin\java -jar splitfile-0.0.2-SNAPSHOT.jar
 ```
 Este generará una carpeta `upload\` en la carpeta temporales de SO. Si se quisiera utilizar otra ruta específica se debe indicar de la siguiente manera:
 
 ```cmd
-C:\java\jdk-21.0.5\bin\java -Djava.io.tmpdir=C:\miTemporal -jar splitfile-0.0.1-SNAPSHOT.jar
+C:\java\jdk-21.0.5\bin\java -Djava.io.tmpdir=C:\miTemporal -jar splitfile-0.0.2-SNAPSHOT.jar
 ```
 
 ## Para Linux
@@ -71,16 +71,16 @@ tar -xf jdk-21.0.5_linux-x64_bin.tar.gz
 ### Paso 3: Descargar .jar con el bitcode del proyecto
 Se debe descargar el ejecutable del proyecto a través del siguiente comando:
 ```bash
-curl -L -o splitfile-0.0.1-SNAPSHOT.jar "https://github.com/tcero76/splitfile/releases/download/v0.0.1/splitfile-0.0.1-SNAPSHOT.jar"
+curl -L -o splitfile-0.0.2-SNAPSHOT.jar "https://github.com/tcero76/splitfile/releases/download/v0.0.2/splitfile-0.0.2-SNAPSHOT.jar"
 ```
 ### Paso 4: Ejecutar el proyecto
 Para ejecutar el proyecto se debe usar el siguiente comando:
 ```bash
-./jdk-21.0.5/bin/java -jar ./splitfile-0.0.1-SNAPSHOT.jar
+./jdk-21.0.5/bin/java -jar ./splitfile-0.0.2-SNAPSHOT.jar
 ```
 Este generará una carpeta `upload\` en la carpeta temporales de SO. Si se quisiera utilizar otra ruta específica se debe indicar de la siguiente manera:
 
 ```bash
 mkdir miTemporal
-./jdk-21.0.5/bin/java -Djava.io.tmpdir=./miTemporal -jar ./splitfile-0.0.1-SNAPSHOT.jar
+./jdk-21.0.5/bin/java -Djava.io.tmpdir=./miTemporal -jar ./splitfile-0.0.2-SNAPSHOT.jar
 ```
