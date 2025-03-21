@@ -11,13 +11,14 @@
 </head>
 <body>
     <h2>Subir un Archivo</h2>
+    <p id="statusMessage"></p>
     <form>
         <label for="size">Tamaño [bytes]. Límite Máximo 15MG:</label>
         <input type="number" name="size" id="size" required>
         <br><br>
         <label for="archivo">Selecciona un archivo:</label>
         <input type="file" id="archivo" name="archivo" required>
-        <button id="subir">Subir</button>
+        <button id="subir">Procesar</button>
     </form>
     <ol id="list">
     </ol>
