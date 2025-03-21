@@ -1,3 +1,10 @@
+function updateStatus(msg, tipo) {
+    const statusMessage = document.getElementById('statusMessage');
+    statusMessage.textContent = msg;
+    statusMessage.className = tipo;
+    if (tipo === "error") throw new Error(msg);
+}
+
 function actualizarLista(elementos, name) {
     const nameParts = name.split(".",2);
     const list = document.getElementById("list");
@@ -26,61 +33,27 @@ document.getElementById("subir").addEventListener("click", function(event) {
     event.preventDefault();
     const size = document.getElementById("size").value;
     const archivo = document.getElementById("archivo").files[0];
-    const statusMessage = document.getElementById('statusMessage');
-
-    if (!archivo) {
-        statusMessage.textContent = "Faltan adjuntar archivo";
-        statusMessage.className = "error";
-        throw new Error("Faltan adjuntar archivo");
-    }
-
-    if (!size) {
-        statusMessage.textContent = "Faltan indicar tamaño";
-        statusMessage.className = "error";
-        throw new Error("Faltan indicar tamaño");
-    }
-
-    if (archivo.size < size) {
-        statusMessage.textContent = "El tamaño excede el del archivo";
-        statusMessage.className = "error";
-        throw new Error("El tamaño excede el del archivo");
-    }
-
+    if (!archivo) updateStatus("Faltan adjuntar archivo", "error");
+    if (!size) updateStatus("Faltan indicar tamaño","error")
+    if (archivo.size < size) updateStatus("El tamaño excede el del archivo", "error")
     const formData = new FormData();
     formData.append("file", archivo);
-    statusMessage.textContent = "Procesando Archivo...";
-    statusMessage.className = "info";
+    updateStatus("Procesando Archivo...", "info")
     fetch(`/api/upload?size=${size}`, {
-        method: "POST",
-        body: formData,
+            method: "POST",
+            body: formData,
+        })
+    .then(res => {
+        if(res.status == 413) {
+            updateStatus("Tamaño archivo excede el límite", "error")
+        }
+        updateStatus("Archivo procesado exitosamente", "success")
+        return res.json()
     })
-        .then(res => {
-            if(res.status == 413) {
-                alert("Tamaño del archivo demasiado grande");
-                throw new Error("Tamaño archivo excede el límite");
-                statusMessage.textContent = "Tamaño archivo excede el límite";
-                statusMessage.className = "error";
-            }
-            statusMessage.textContent = "Archivo procesado exitosamente.";
-            statusMessage.className = "success";
-            return res.json()
-        })
-        .catch(res => {
-            console.error(res)
-            statusMessage.textContent = "Hubo un error al procesar el archivo.";
-            statusMessage.className = "error";
-        })
-        .then(res => {
-            if(!res) {
-                throw new Error("Sin respuesta del servidor");
-                statusMessage.textContent = "Sin respuesta del servidor";
-                statusMessage.className = "error";
-            }
-            actualizarLista(res, archivo.name)
-        })
-        .catch(error => {
-            console.log("Error:", error)
-            statusMessage.textContent = error;
-            statusMessage.className = "error";
-        });
+    .catch(res => updateStatus("Hubo un error al procesar el archivo", "error"))
+    .then(res => {
+        if(!res) updateStatus("Sin respuesta del servidor", "error")
+        actualizarLista(res, archivo.name)
+    })
+    .catch(err => updateStatus(err, "error"));
 });
