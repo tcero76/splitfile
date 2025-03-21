@@ -29,12 +29,16 @@ Para descomprimir los binarios en la carpeta recién creada se debe ejecutar el 
 ```cmd
 tar -xf jdk-21.0.5_windows-x64_bin.zip -C "C:\java"
 ```
-
+En caso de no disponer de `tar` entonces, se debe utilizar el decompresor que se disponga para archivos `zip`
 ### Paso 4: Descargar .jar con el bitcode del proyecto
 Se debe descargar el ejecutable del proyecto a través del siguiente comando:
 ```cmd
 curl -L -o splitfile-0.0.2-SNAPSHOT.jar "https://github.com/tcero76/splitfile/releases/download/v0.0.2/splitfile-0.0.2-SNAPSHOT.jar"
 ```
+Si no se dispone de `curl`, es posible descargarlo del siguiente enlace:
+
+[Descargar bitcode](https://github.com/tcero76/splitfile/releases/tag/v0.0.2)
+
 
 ### Paso 5: Ejecutar el proyecto
 Para ejecutar el proyecto se debe usar el siguiente comando:
